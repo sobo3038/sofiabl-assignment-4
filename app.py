@@ -36,20 +36,24 @@ def search():
 
     top_documents = []
     for i in top_indices:
-        # Extract metadata (email, subject) from the original documents
+        # Extract metadata (email, subject, organization) from the original documents
         metadata = document_metadata.data[i]
         email_start = metadata.find('From:')
         email_end = metadata.find('\n', email_start)
         subject_start = metadata.find('Subject:')
         subject_end = metadata.find('\n', subject_start)
+        org_start = metadata.find('Organization:')
+        org_end = metadata.find('\n', org_start)
         
         email = metadata[email_start+5:email_end].strip() if email_start != -1 else "No email found"
         subject = metadata[subject_start+8:subject_end].strip() if subject_start != -1 else "No subject found"
-        
+        organization = metadata[org_start+13:org_end].strip() if org_start != -1 else "No organization found"
+
         full_document = documents[i]  # Extract the full document content
         top_documents.append({
             'email': email,
             'subject': subject,
+            'organization': organization,  # Add organization field
             'content': full_document,  # Use 'content' instead of 'snippet'
             'similarity': similarities[i]
         })
@@ -58,6 +62,7 @@ def search():
     chart_data = {'labels': [f'Document {i+1}' for i in range(5)], 'values': [similarities[i] for i in top_indices]}
 
     return jsonify({'documents': top_documents, 'chart_data': chart_data})
+
 
 
 

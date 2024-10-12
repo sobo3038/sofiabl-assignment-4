@@ -11,6 +11,7 @@ $('#search-form').on('submit', function(event) {
                     <h3>Document ${index + 1}</h3>
                     <p><strong>From:</strong> ${doc.email}</p>
                     <p><strong>Subject:</strong> ${doc.subject}</p>
+                    <p><strong>Organization:</strong> ${doc.organization}</p> <!-- Display organization field -->
                     <p><strong>Content:</strong> ${doc.content}</p> <!-- Show full document content -->
                     <p class="similarity"><strong>Similarity:</strong> ${doc.similarity.toFixed(6)}</p>
                 </div>
